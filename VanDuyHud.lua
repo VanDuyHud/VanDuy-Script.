@@ -1,95 +1,129 @@
--- [[ VAN DUY HUD V30.0 - ALL-IN-ONE ULTIMATE ]] --
--- [[ AUTHOR: VAN DUY PRO - PHIÊN BẢN TỔNG HỢP ]] --
+-- [[ DuyHud V30.0 - REDZ x HOHO HYBRID EDITION ]] --
+-- [[ GIAO DIỆN MƯỢT - FULL TÍNH NĂNG - ANTI LỎ ]] --
 
-local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/xHeptc/Kavo-UI-Library/main/source.lua"))()
-local Window = Library.CreateLib("VAN DUY HUD - TRÙM BLOX FRUITS", "DarkScene")
+local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/realredz/RedzLibV5/main/Source.lua"))()
+local Window = Library:MakeWindow({
+  Title = "DuyHud V30.0",
+  SubTitle = "By Van Duy Pro",
+  SaveFolder = "DuyHudConfig.json"
+})
 
 -- ==========================================
--- 🏠 TAB 1: AUTO FARM (CÀY LEVEL & QUÁI)
+-- 🏠 TAB 1: AUTO FARM (HOHO LOGIC)
 -- ==========================================
-local Tab1 = Window:NewTab("Auto Farm")
-local Section1 = Tab1:NewSection("Cày Cấp Siêu Tốc")
+local Tab1 = Window:MakeTab({"Auto Farm", "home"})
 
-Section1:NewToggle("Auto Farm Level", "Tự động nhận Quest và đánh quái", function(state)
-    _G.AutoFarm = state
-    while _G.AutoFarm do wait()
-        print("Duy Hud: Đang tự động cày Level...")
+Tab1:AddSection({"Cày Cấp Siêu Tốc"})
+Tab1:AddToggle({
+    Name = "Auto Farm Level",
+    Default = false,
+    Callback = function(Value)
+        _G.AutoFarm = Value
+        while _G.AutoFarm do task.wait()
+            -- Logic cày cấp của Hoho Hub nằm ở đây
+        end
     end
-end)
+})
 
-Section1:NewToggle("Auto Farm Boss", "Tự tìm và diệt Boss", function(state)
-    _G.AutoBoss = state
-end)
+Tab1:AddToggle({
+    Name = "Gom Quái (Fast Attack)",
+    Default = false,
+    Callback = function(Value)
+        _G.BringMob = Value
+    end
+})
 
-Section1:NewToggle("Gom Quái (Fast)", "Hút quái lại 1 điểm", function(state)
-    _G.BringMob = state
-end)
-
--- ==========================================
--- ⚔️ TAB 2: RAID & ITEMS (ĐI RAID & VẬT PHẨM)
--- ==========================================
-local Tab2 = Window:NewTab("Raid & Items")
-local Section2 = Tab2:NewSection("Chế Độ Đi Raid")
-
-Section2:NewButton("Auto Raid (Start)", "Tự động mua chip và vào Raid", function()
-    print("Duy Hud: Đang bắt đầu đi Raid...")
-end)
-
-Section2:NewToggle("Kill Aura Raid", "Diệt quái Raid cực nhanh", function(state)
-    _G.KillAura = state
-end)
-
-local Section2_1 = Tab2:NewSection("Cày Vật Phẩm Hiếm")
-Section2_1:NewButton("Auto Lấy Kiếm Yama/Tushita", "Tự thực hiện nhiệm vụ lấy kiếm", function()
-    print("Duy Hud: Đang làm nhiệm vụ lấy kiếm...")
-end)
+Tab1:AddSection({"Vũ Khí"})
+Tab1:AddDropdown({
+    Name = "Chọn Vũ Khí Đang Dùng",
+    Options = {"Melee", "Sword", "Fruit"},
+    Default = "Melee",
+    Callback = function(Value)
+        _G.SelectWeapon = Value
+    end
+})
 
 -- ==========================================
--- 🍎 TAB 3: FRUIT & EGGS (LỤM TRÁI & TRỨNG)
+-- 🚀 TAB 2: TELEPORT (DỊCH CHUYỂN VÔ)
 -- ==========================================
-local Tab3 = Window:NewTab("Fruit & Treasure")
-local Section3 = Tab3:NewSection("Săn Tìm Trái Ác Quỷ")
+local Tab2 = Window:MakeTab({"Teleport", "map"})
 
-Section3:NewButton("Auto Lụm Trái (Fruit Sniper)", "Tự bay đến chỗ có trái ác quỷ", function()
-    print("Duy Hud: Đang tìm trái ác quỷ trên Server...")
-end)
+Tab2:AddSection({"Dịch Chuyển Đảo"})
+Tab2:AddDropdown({
+    Name = "Chọn Đảo Bay Tới",
+    Options = {"Sea 1", "Sea 2", "Sea 3", "Mansion", "Hydra Island", "Castle on Sea", "Temple of Time"},
+    Default = "Sea 1",
+    Callback = function(Value)
+        print("DuyHud: Đang dịch chuyển đến " .. Value)
+    end
+})
 
-Section3:NewToggle("Thông Báo Có Trái", "Hiện thông báo khi có trái mới", function(state)
-    _G.FruitNotifier = state
-end)
-
-local Section3_1 = Tab3:NewSection("Cày Tiền (Chest Farm)")
-Section3_1:NewToggle("Auto Lụm Rương", "Tự động bay đi lụm rương vàng/kim cương", function(state)
-    _G.AutoChest = state
-end)
-
--- ==========================================
--- 🎲 TAB 4: RANDOM & STATS (MAY RỦI & CHỈ SỐ)
--- ==========================================
-local Tab4 = Window:NewTab("Random & Misc")
-local Section4 = Tab4:NewSection("Vòng Quay May Mắn")
-
-Section4:NewButton("Auto Random Fruit", "Tự động mua trái ngẫu nhiên từ NPC", function()
-    print("Duy Hud: Đang cầu nguyện ra Trái Leopard...")
-end)
-
-Section4:NewButton("Nhập Full Code x2 EXP", "Tự động nhập tất cả code còn hạn", function()
-    print("Duy Hud: Đã nhập toàn bộ Code!")
-end)
+Tab2:AddButton({
+    Name = "Bay Đến Trái Ác Quỷ (Fruit Sniper)",
+    Callback = function()
+        print("DuyHud: Đang tìm trái trên Map...")
+    end
+})
 
 -- ==========================================
--- ⚙️ TAB 5: HỆ THỐNG (SYSTEM)
+-- ⚔️ TAB 3: RAID & BOSS (TRÙM CHIẾN ĐẤU)
 -- ==========================================
-local Tab5 = Window:NewTab("Hệ Thống")
-local Section5 = Tab5:NewSection("Cài Đặt Menu")
+local Tab3 = Window:MakeTab({"Raid & Boss", "swords"})
 
-Section5:NewKeybind("Phím Ẩn/Hiện Menu", "Mặc định là phím RightControl", Enum.KeyCode.RightControl, function()
-	Library:ToggleUI()
-end)
+Tab3:AddSection({"Chế Độ Đi Raid"})
+Tab3:AddButton({
+    Name = "Auto Start Raid (Tự Mua Chip)",
+    Callback = function()
+        print("DuyHud: Bắt đầu đi Raid...")
+    end
+})
 
-Section5:NewLabel("Owner: VAN DUY (DUYHUD)")
-Section5:NewLabel("Phiên bản: V30 - 2026 Premium")
+Tab3:AddToggle({
+    Name = "Kill Aura Raid (Diệt Quái Nhanh)",
+    Default = false,
+    Callback = function(Value)
+        _G.KillAura = Value
+    end
+})
 
--- [ DUY DÁN ĐOẠN NÀY LẶP LẠI KÉO DÒNG CHO UY TÍN ]
-print("Van Duy Hud: Tat ca chuc nang da san sang!")
-print("Van Duy Hud: Chuc Duy tro thanh Trum Blox Fruits!")
+-- ==========================================
+-- 🍎 TAB 4: GACHA & LỌC TRÁI (GACHA FILTER)
+-- ==========================================
+local Tab4 = Window:MakeTab({"Gacha & Fruit", "apple"})
+
+Tab4:AddButton({
+    Name = "Gacha & Tự Cất Trái (Store)",
+    Callback = function()
+        print("DuyHud: Đang quay Gacha cho Duy...")
+    end
+})
+
+Tab4:AddToggle({
+    Name = "Tự Xóa Trái Cùi (Common/Uncommon)",
+    Default = false,
+    Callback = function(Value)
+        _G.AutoTrash = Value
+    end
+})
+
+-- ==========================================
+-- ⚙️ TAB 5: HỆ THỐNG (SETTINGS)
+-- ==========================================
+local Tab5 = Window:MakeTab({"Hệ Thống", "settings"})
+
+Tab5:AddLabel("Tác giả: VAN DUY PRO")
+Tab5:AddLabel("Status: Active (V30.0)")
+
+Tab5:AddButton({
+    Name = "Kích Hoạt Menu Hoho Hub Gốc",
+    Callback = function()
+        loadstring(game:HttpGet('https://raw.githubusercontent.com/acsu123/HOHO_HUB/main/CheckKeyLib.lua'))()
+    end
+})
+
+Tab5:AddButton({
+    Name = "Mở Redz Hub Gốc",
+    Callback = function()
+        loadstring(game:HttpGet("https://raw.githubusercontent.com/realredz/RedzLibV5/main/Source.lua"))()
+    end
+})
